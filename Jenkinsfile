@@ -1,15 +1,26 @@
 pipeline{
         agent any
         stages{
-            stage('Make Directory'){
+            stage('Clone repo'){
                 steps{
-                    sh "mkdir ~/jenkins-tutorial-test"
+                    sh "git clone https://gitlab.com/qacdevops/chaperootodo_client && cd $_"
                 }
             }
-            stage('Make Files'){
+            stage('install docker and docker compose'){
                 steps{
-                    sh "touch ~/jenkins-tutorial-test/file1 ~/jenkins-tutorial-test/file2"
+                    sh '''
+                    curl https://get.docker.com | sudo bash
+                    sudo usermod -aG docker $(whoami)
+                    sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+                    sudo chmod +x /usr/local/bin/docker-compose
+                    '''
                 }
             }
+            stage('Deploy application'){
+                steps{
+                    sh "sudo docker-compose up -d"
+                }
+            }
+        
         }    
 }
