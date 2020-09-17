@@ -3,7 +3,10 @@ pipeline{
         stages{
             stage('Clone repo'){
                 steps{
-                    sh "./clone-repo.sh && cd chaperootodo_client/"
+                    sh '''
+                    chmod +x clone-repo.sh
+                    ./clone-repo.sh
+                    cd chaperootodo_client/"
                 }
             }
             stage('install docker and docker compose'){
