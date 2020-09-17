@@ -18,7 +18,7 @@ pipeline{
             }
             stage('Deploy application'){
                 steps{
-                    sh "sudo docker-compose up -d"
+                    sh "pwd && ls -la && sudo docker-compose up -d"
                 }
             }
         
